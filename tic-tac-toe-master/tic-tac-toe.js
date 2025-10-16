@@ -1,6 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
   const board = document.getElementById('board');
   const box = board.querySelectorAll("#board > div");
+  const statusBox = document.getElementById('status');
 
   box.forEach(box => box.classList.add("square"));
   
@@ -25,6 +26,19 @@ window.addEventListener('DOMContentLoaded', () => {
     return false;
   }
 
+  const newGameButton = document.querySelector('.btn');
+  newGameButton.addEventListener('click', () => {
+    for (let i = 0; i < box.length; i++) {
+      box[i].textContent = '';
+      box[i].classList.remove("X", "O", "hover");
+      state[i] = null;
+    }
+
+    statusBox.textContent = 'Move your mouse over a square and click to play an X or an O. ';
+    statusBox.classList.remove('you-won');
+    currentPlayer = 'X';
+  });
+
   box.forEach ((box, index) => {
     box.addEventListener('mouseenter', () => {
       if (!state[index]) box.classList.add("hover");
@@ -34,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     box.addEventListener('click', () => {
-      if (!state[index] ||  statusBox.classList.contains("you-won")) return;
+      if (state[index] ||  statusBox.classList.contains("you-won")) return;
 
       box.textContent = currentPlayer;
       box.classList.remove("X","O","hover");
